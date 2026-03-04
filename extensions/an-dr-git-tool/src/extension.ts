@@ -38,6 +38,7 @@ const TOOLS: ToolDef[] = [
             ],
             darwin: ['/Applications/SmartGit.app/Contents/MacOS/SmartGit'],
             linux: [
+                '$HOME/.local/smartgit/bin/smartgit.sh',
                 '/usr/lib/smartgit/bin/smartgit.sh',
                 '/opt/smartgit/bin/smartgit.sh',
                 '/usr/local/bin/smartgit',
