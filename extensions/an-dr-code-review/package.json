@@ -1,0 +1,119 @@
+{
+  "name": "an-dr-code-review",
+  "displayName": "an-dr: Code Review",
+  "description": "Inline code review comments stored in a workspace JSON file, with Markdown export and GitHub/GitLab links.",
+  "version": "0.1.0",
+  "publisher": "an-dr",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "keywords": ["code review", "comments", "review"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "an-dr-code-review.submitComment",
+        "title": "Add Comment",
+        "category": "Code Review"
+      },
+      {
+        "command": "an-dr-code-review.deleteComment",
+        "title": "Delete Comment",
+        "category": "Code Review",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "an-dr-code-review.resolveThread",
+        "title": "Resolve Thread",
+        "category": "Code Review",
+        "icon": "$(check)"
+      },
+      {
+        "command": "an-dr-code-review.unresolveThread",
+        "title": "Unresolve Thread",
+        "category": "Code Review",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "an-dr-code-review.deleteThread",
+        "title": "Delete Thread",
+        "category": "Code Review",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "an-dr-code-review.exportMarkdown",
+        "title": "Code Review: Export to Markdown",
+        "category": "Code Review"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        { "command": "an-dr-code-review.submitComment",   "when": "false" },
+        { "command": "an-dr-code-review.deleteComment",   "when": "false" },
+        { "command": "an-dr-code-review.resolveThread",   "when": "false" },
+        { "command": "an-dr-code-review.unresolveThread", "when": "false" },
+        { "command": "an-dr-code-review.deleteThread",    "when": "false" }
+      ],
+      "comments/commentThread/context": [
+        {
+          "command": "an-dr-code-review.submitComment",
+          "group": "inline",
+          "when": "commentController == an-dr-code-review"
+        }
+      ],
+      "comments/commentThread/title": [
+        {
+          "command": "an-dr-code-review.resolveThread",
+          "group": "inline@1",
+          "when": "commentController == an-dr-code-review && commentThread == unresolved"
+        },
+        {
+          "command": "an-dr-code-review.unresolveThread",
+          "group": "inline@1",
+          "when": "commentController == an-dr-code-review && commentThread == resolved"
+        },
+        {
+          "command": "an-dr-code-review.deleteThread",
+          "group": "inline@2",
+          "when": "commentController == an-dr-code-review"
+        }
+      ],
+      "comments/comment/title": [
+        {
+          "command": "an-dr-code-review.deleteComment",
+          "group": "inline",
+          "when": "commentController == an-dr-code-review"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "an-dr: Code Review",
+      "properties": {
+        "codeReview.dataFile": {
+          "type": "string",
+          "default": ".code-review.json",
+          "description": "Path relative to workspace root where review comments are stored."
+        },
+        "codeReview.showAuthor": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include author name in comments and exports."
+        },
+        "codeReview.author": {
+          "type": "string",
+          "default": "",
+          "description": "Author name override (when showAuthor is enabled). Defaults to git user.name, then $USER."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
